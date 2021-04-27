@@ -36,7 +36,7 @@ GH Profile is a usage demonstration of ****GitHub Graph QL API**** written in Sw
 - Swift 5+
 
 ## How to run
-Just check out the project, open using Xcode, and hit the "build and run" button. That's it!. Just make sure you replaces the API key to a valid key before attemting to run.
+Just check out the project, open using Xcode, and hit the "build and run" button. That's it!. Just make sure you replaces the API key to a valid key before attempting to run.
 
 ## Modifications
 Please refer *****_Constants.swift_***** file for common configurations, Including GitHub profile to load and API key for GitHub Graph QL.
