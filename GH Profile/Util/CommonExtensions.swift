@@ -49,29 +49,29 @@ extension UILabel {
         let attachment = NSTextAttachment()
         attachment.bounds.size = .init(width: 10, height: 10)
         let img = UIImage()
-        let a = img.circle(diameter: 20, color: hexStringToUIColor(hex: color))
-        attachment.image = a//UIImage(color: .red, size: .init(width: 12, height: 12))
+        let coloredCircleImage = img.circle(diameter: 20, color: hexStringToUIColor(hex: color))
+        attachment.image = coloredCircleImage
         let attachmentString = NSAttributedString(attachment: attachment)
-        let myString = NSMutableAttributedString()
-        myString.append(attachmentString)
-        myString.append(NSMutableAttributedString(string: " "))
-        myString.append(NSMutableAttributedString(string: language))
-        attributedText = myString
+        let mutableString = NSMutableAttributedString()
+        mutableString.append(attachmentString)
+        mutableString.append(NSMutableAttributedString(string: " "))
+        mutableString.append(NSMutableAttributedString(string: language))
+        attributedText = mutableString
     }
     
     func hexStringToUIColor (hex:String) -> UIColor {
-        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        var hexString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         
-        if (cString.hasPrefix("#")) {
-            cString.remove(at: cString.startIndex)
+        if (hexString.hasPrefix("#")) {
+            hexString.remove(at: hexString.startIndex)
         }
         
-        if ((cString.count) != 6) {
+        if ((hexString.count) != 6) {
             return UIColor.gray
         }
         
         var rgbValue:UInt64 = 0
-        Scanner(string: cString).scanHexInt64(&rgbValue)
+        Scanner(string: hexString).scanHexInt64(&rgbValue)
         
         return UIColor(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,

@@ -29,7 +29,7 @@ struct Constants {
     static let FONT_SIZE_REGULAR: CGFloat = 14.0
     
     //MARK: UI Constants
-    static let HORIZONTAL_SCROLLER_HEIGHT: Int = 160
     static let REPOSITORY_TILE_HEIGHT: CGFloat = 130.0
+    static let PINNED_STACK_VIEW_TAG: Int = 1001
     
 }

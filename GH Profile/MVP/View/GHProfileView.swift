@@ -69,7 +69,7 @@ class ProfileView: UIView {
 
         topRepoViewAllLabel.anchor(top: topRepoHeaderLabel.topAnchor, leading: nil, bottom: nil, trailing:self.safeAreaLayoutGuide.trailingAnchor, padding: .init(top: 0, left: 0, bottom: 0, right: 15))
         
-        topRepoScroller.anchor(top: topRepoViewAllLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: self.safeAreaLayoutGuide.trailingAnchor, size: .init(width: 0, height: Constants.HORIZONTAL_SCROLLER_HEIGHT))
+        topRepoScroller.anchor(top: topRepoViewAllLabel.bottomAnchor, leading: scrollView.leadingAnchor, bottom: nil, trailing: self.safeAreaLayoutGuide.trailingAnchor, size: .init(width: 0, height: Constants.REPOSITORY_TILE_HEIGHT+(15+15)))//(15+15 is for top and bottom margins)
         
         topRepoStackView.anchor(top: topRepoScroller.topAnchor, leading: topRepoScroller.leadingAnchor, bottom:topRepoScroller.bottomAnchor, trailing:topRepoScroller.trailingAnchor, padding: .init(top: 15, left: 15, bottom: 0, right: 15))
         
@@ -158,6 +158,7 @@ class ProfileView: UIView {
     
     let pinnedStackView: UIStackView = {
         let stack = UIStackView()
+        stack.tag = Constants.PINNED_STACK_VIEW_TAG
         stack.axis = .vertical
         stack.distribution = .fillEqually
         stack.spacing = 15

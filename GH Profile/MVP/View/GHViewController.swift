@@ -51,9 +51,12 @@ class GHViewController: UIViewController {
                         self.mainView.profileImageView.load(url: url, placeholder: UIImage(named: "profile_placeholder"))
                     }
                     
-                    self.setPinnedRepos(repos: user.pinnedItems)
-                    self.setTopTenRepos(repos: user.repositories)
-                    self.setStarredTenRepos(repos: user.starredRepositories)
+                    //Populate pinned repositories
+                    self.populateRepositoryCards(repos: user.pinnedItems, stack: self.mainView.pinnedStackView)
+                    //Populate user repositories
+                    self.populateRepositoryCards(repos: user.repositories, stack: self.mainView.topRepoStackView)
+                    //Populate starred repositories
+                    self.populateRepositoryCards(repos: user.starredRepositories, stack: self.mainView.starredRepoStackView)
                     
                     if sender != nil {
                         sender!.endRefreshing()
@@ -71,10 +74,10 @@ class GHViewController: UIViewController {
         }
     }
     
-    func setPinnedRepos(repos: GHRepositories) {
+    func populateRepositoryCards(repos: GHRepositories, stack: UIStackView) {
         
-        for view in mainView.pinnedStackView.arrangedSubviews {
-            mainView.pinnedStackView.removeArrangedSubview(view)
+        for view in stack.arrangedSubviews {
+            stack.removeArrangedSubview(view)
             view.removeFromSuperview()
         }
         
@@ -92,59 +95,10 @@ class GHViewController: UIViewController {
                 view.primaryProgrammingLanguageLabel.setLanguageAndColorCircle(language: language.name, color:language.color)
             }
             view.starredLabel.setStarredCount(count: repo.stargazerCount)
-            mainView.pinnedStackView.addArrangedSubview(view)
-        }
-    }
-    
-    func setTopTenRepos(repos: GHRepositories) {
-        
-        for view in mainView.topRepoStackView.arrangedSubviews {
-            mainView.topRepoStackView.removeArrangedSubview(view)
-            view.removeFromSuperview()
-        }
-        
-        for repo in repos.nodes {
-            let view = GHRepositoryCardView()
-            
-            if let url = URL(string: repo.owner.avatarUrl) {
-                view.profileImageView.load(url: url, placeholder: UIImage(named: "profile_placeholder"))
+            if stack.tag != Constants.PINNED_STACK_VIEW_TAG {
+                view.anchor(top: nil, leading: nil, bottom: nil, trailing: nil, size: .init(width: UIScreen.main.bounds.size.width / 2, height: Constants.REPOSITORY_TILE_HEIGHT))
             }
-            
-            view.loginLabel.text = repo.owner.login
-            view.repoNameLabel.text = repo.name
-            view.repoDescriptionLabel.text = repo.description
-            if let language = repo.languages.nodes.first{
-                view.primaryProgrammingLanguageLabel.setLanguageAndColorCircle(language: language.name, color:language.color)
-            }
-            view.starredLabel.setStarredCount(count: repo.stargazerCount)
-            view.anchor(top: nil, leading: nil, bottom: nil, trailing: nil, size: .init(width: UIScreen.main.bounds.size.width / 2, height: Constants.REPOSITORY_TILE_HEIGHT))
-            mainView.topRepoStackView.addArrangedSubview(view)
-        }
-    }
-    
-    func setStarredTenRepos(repos: GHRepositories) {
-        
-        for view in mainView.starredRepoStackView.arrangedSubviews {
-            mainView.starredRepoStackView.removeArrangedSubview(view)
-            view.removeFromSuperview()
-        }
-        
-        for repo in repos.nodes {
-            let view = GHRepositoryCardView()
-            
-            if let url = URL(string: repo.owner.avatarUrl) {
-                view.profileImageView.load(url: url, placeholder: UIImage(named: "profile_placeholder"))
-            }
-            
-            view.loginLabel.text = repo.owner.login
-            view.repoNameLabel.text = repo.name
-            view.repoDescriptionLabel.text = repo.description
-            if let language = repo.languages.nodes.first{
-                view.primaryProgrammingLanguageLabel.setLanguageAndColorCircle(language: language.name, color:language.color)
-            }
-            view.starredLabel.setStarredCount(count: repo.stargazerCount)
-            view.anchor(top: nil, leading: nil, bottom: nil, trailing: nil, size: .init(width: UIScreen.main.bounds.size.width / 2, height: Constants.REPOSITORY_TILE_HEIGHT))
-            mainView.starredRepoStackView.addArrangedSubview(view)
+            stack.addArrangedSubview(view)
         }
     }
     
